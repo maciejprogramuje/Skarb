@@ -4,13 +4,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        StringBuilder result = new StringBuilder();
+        Result result = new Result();
 
         Scanner scanner = new Scanner(System.in);
         int testCases = Integer.parseInt(scanner.nextLine());
         for (int i = 0; i < testCases; i++) {
-            Integer x = 0;
-            Integer y = 0;
+            Position position = new Position();
             int moves = Integer.parseInt(scanner.nextLine());
             for (int j = 0; j < moves; j++) {
                 String[] inputLine = scanner.nextLine().split(" ");
@@ -19,36 +18,80 @@ public class Main {
 
                 switch (direction) {
                     case 0:
-                        y += steps;
+                        position.setY(position.getY() + steps);
                         break;
                     case 1:
-                        y -= steps;
+                        position.setY(position.getY() - steps);
                         break;
                     case 2:
-                        x -= steps;
+                        position.setX(position.getX() - steps);
                         break;
                     case 3:
-                        x += steps;
+                        position.setX(position.getX() + steps);
                         break;
                 }
             }
 
+
+            int y = position.getY();
+            int x = position.getX();
             if (y == 0 && x == 0) {
-                result.append("studnia").append("\n");
+                result.addLine("studnia");
             } else {
                 if (y > 0) {
-                    result.append("0 ").append(Math.abs(y)).append("\n");
+                    result.addLine("0 ", y);
                 } else if (y < 0) {
-                    result.append("1 ").append(Math.abs(y)).append("\n");
+                    result.addLine("1 ", y);
                 }
                 if (x > 0) {
-                    result.append("3 ").append(Math.abs(y)).append("\n");
+                    result.addLine("3 ", x);
                 } else if (x < 0) {
-                    result.append("2 ").append(Math.abs(y)).append("\n");
+                    result.addLine("2 ", x);
                 }
             }
         }
 
-        System.out.println(result);
+        System.out.println(result.print());
+    }
+}
+
+class Position {
+    private int x;
+    private int y;
+
+    int getX() {
+        return x;
+    }
+
+    void setX(int x) {
+        this.x = x;
+    }
+
+    int getY() {
+        return y;
+    }
+
+    void setY(int y) {
+        this.y = y;
+    }
+}
+
+class Result {
+    private StringBuilder result;
+
+    Result() {
+        result = new StringBuilder();
+    }
+
+    void addLine(String s) {
+        result.append(s).append("\n");
+    }
+
+    void addLine(String s, int i) {
+        result.append(s).append(Math.abs(i)).append("\n");
+    }
+
+    String print() {
+        return result.toString();
     }
 }
